@@ -19,7 +19,6 @@ const Form = ({ isSignedIn }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(data);
     try {
       const response = await fetch(
         `http://localhost:8000/api/${isSignedIn ? "login" : "register"}`,
@@ -33,6 +32,14 @@ const Form = ({ isSignedIn }) => {
       );
 
       const res = await response.json();
+
+      if(!isSignedIn){
+        if(res.status !== 400){
+          localStorage.setItem("user:token", res.token);
+          localStorage.setItem("user:detail", JSON.stringify(res.user));
+          navigate("/");
+        }
+      }
 
       if (res.status === 400) {
         toast.error("Invalid Data");

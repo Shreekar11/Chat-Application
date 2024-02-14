@@ -16,7 +16,18 @@ const Dashboard = () => {
   const [socket, setSocket] = useState(null);
  
   useEffect(() => {
-    setSocket(io('http://localhost:8080'));
+    const socket = io('http://localhost:8080'); 
+
+    socket?.on('getMessage', (data) => {
+      setMessages((prev) => ({
+        ...prev,
+        messages: [...prev.messages, { user, message: data.message }],
+      }));
+    });
+
+    return () => {
+      socket?.disconnect();
+    };
   }, []);
 
   useEffect(() => {
@@ -31,9 +42,8 @@ const Dashboard = () => {
           },
         }
       );
-
-      const res = await response.json();
-      setConversations(res);
+      const data = await response.json();
+      setConversations(data);
     };
 
     fetchConversation();
@@ -49,24 +59,23 @@ const Dashboard = () => {
         },
       }
     );
-
     const data = await response.json();
     setMessages(data);
-    console.log(messages?.user);
   };
 
   useEffect(() => {
     fetchMessages();
   }, []);
 
-  const handleSendMessage = async(e) => {
+  const handleSendMessage = async (e) => {
     e.preventDefault();
-    console.log({
+
+    socket?.emit('sendMessage', {
       conversationId,
       senderId: user?.id,
       message: inputMessage,
-      receiverId: messages?.user?.id
-    })
+    });
+
     const response = await fetch('http://localhost:8000/api/message', {
       method: 'POST',
       headers: {
@@ -76,16 +85,15 @@ const Dashboard = () => {
         conversationId,
         senderId: user?.id,
         message: inputMessage,
-      })
+      }),
     });
-    const data = await response.json();
-    setInputMessage('');
-    console.log((data));
-  }
 
+    setInputMessage('');
+  };
+  
   return (
-    <main className="w-screen flex">
-      <div className="w-[25%] h-screen bg-[#f3f5ff]">
+    <main className="w-screen flex flex-col md:flex-row">
+      <div className="w-full md:w-[25%] md:h-screen bg-[#f3f5ff]">
         <div className="flex m-10">
           <img
             src={Avatar}
@@ -120,7 +128,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      <div className="w-[75%] h-screen bg-white flex flex-col items-center">
+      <div className="md:w-[75%] w-full h-screen bg-white flex flex-col items-center">
         <div className="flex mr-auto m-5">
           <img
             src={Avatar}
@@ -158,7 +166,7 @@ const Dashboard = () => {
               )}
           </div>
         </div>
-        <div className="p-14 w-full relative ">
+        <div className="p-12 w-full relative ">
           <Input
             type="text"
             name="text"
@@ -167,7 +175,7 @@ const Dashboard = () => {
             placeholder="Type a message..."
             className="w-full p-4 border outline-none border-[#1476ff] rounded-full shadow-lg bg-light focus:ring-0 focus:border-0 "
           />
-          <div className="absolute top-[4.5rem] right-20 text-[#1476ff] flex gap-3">
+          <div className="absolute top-[4rem] right-20 text-[#1476ff] flex gap-3">
             <PaperAirplaneIcon className="w-6 h-6" onClick={handleSendMessage}/>
             <PlusCircleIcon className="w-6 h-6" />
           </div>
