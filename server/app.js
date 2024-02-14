@@ -2,6 +2,11 @@ const express = require("express");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
+const io = require("socket.io")(8080, {
+    cors: {
+        origin: 'http://localhost:5173',
+    }
+});
 
 // connect db
 require("./db/connection");
@@ -18,6 +23,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 const port = process.env.PORT || 8000;
+
+// socket io
+io.on('connection', socket => {
+    console.log('User connected', socket.id);
+    // socket.on('addUser', userId => {
+    //     socket.userId = userId;
+    // });
+    // io.emit('getUsers', socket.userId);
+});
 
 // routes
 app.get("/", (res, req) => {

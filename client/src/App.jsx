@@ -3,16 +3,16 @@ import Dashboard from "./modules/Dashboard";
 import Form from "./modules/Form";
 
 const ProtectedRoute = ({ children, auth=false }) => {
-  // const isLoggedIn = localStorage.getItem("user:token") !== null || false;
+  const isLoggedIn = localStorage.getItem("user:token") !== null || false;
 
-  // if (!isLoggedIn && auth) {
-  //   return <Navigate to={"/users/sign-in"} />;
-  // } else if (
-  //   isLoggedIn &&
-  //   ["/users/sign-in", "/users/sign-up"].includes(window.location.pathname)
-  // ) {
-  //   return <Navigate to={"/"} />;
-  // }
+  if (!isLoggedIn && auth) {
+    return <Navigate to={"/users/sign-in"} />;
+  } else if (
+    isLoggedIn &&
+    ["/users/sign-in", "/users/sign-up"].includes(window.location.pathname)
+  ) {
+    return <Navigate to={"/"} />;
+  }
 
   return children;
 };

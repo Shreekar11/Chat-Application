@@ -1,6 +1,7 @@
+import { io } from 'socket.io-client'
 import { useEffect, useState } from "react";
-import Avatar from "../../assets/PFP.png";
 import { PaperAirplaneIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
+import Avatar from "../../assets/PFP.png";
 import Input from "../../components/Input";
 
 const conversationId = "65cc638158b2be14e2488c88";
@@ -12,6 +13,11 @@ const Dashboard = () => {
   const [conversations, setConversations] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
   const [messages, setMessages] = useState([]);
+  const [socket, setSocket] = useState(null);
+ 
+  useEffect(() => {
+    setSocket(io('http://localhost:8080'));
+  }, []);
 
   useEffect(() => {
     const loggedInUser = JSON.parse(localStorage.getItem("user:detail"));
