@@ -1,16 +1,18 @@
 import { io } from "socket.io-client";
 import { useEffect, useState } from "react";
-import { PaperAirplaneIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
+import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
 import Avatar from "../../assets/PFP.png";
 import Input from "../../components/Input";
 import Conversations from "../../components/Conversations";
 
-const conversationId = "65cc638158b2be14e2488c88";
+const conversationId = "65ce1e51234b0b360d31e735";
+const baseURL = process.env.VITE_BASE_URL;
 
 const Dashboard = () => {
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user:detail"))
   );
+  const [conversationId, setConvertionId] = useState("");
   const [conversations, setConversations] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
   const [messages, setMessages] = useState([]);
@@ -22,7 +24,7 @@ const Dashboard = () => {
     const loggedInUser = JSON.parse(localStorage.getItem("user:detail"));
     const fetchConversation = async () => {
       const response = await fetch(
-        `http://localhost:8000/api/conversations/${loggedInUser?.id}`,
+        `${baseURL}/conversations/${loggedInUser?.id}`,
         {
           method: "GET",
           headers: {
@@ -32,6 +34,7 @@ const Dashboard = () => {
       );
       const data = await response.json();
       setConversations(data);
+      setConvertionId(conversations.conversationId);
     };
 
     fetchConversation();
@@ -39,15 +42,12 @@ const Dashboard = () => {
 
   // Messages Fetched
   const fetchMessages = async () => {
-    const response = await fetch(
-      `http://localhost:8000/api/message/${conversationId}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await fetch(`${baseURL}/message/${conversationId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     const data = await response.json();
     setMessages(data);
   };
@@ -78,7 +78,7 @@ const Dashboard = () => {
 
     socket.emit("message", inputMessage);
 
-    const response = await fetch("http://localhost:8000/api/message", {
+    const response = await fetch(`${baseURL}/message`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -111,7 +111,7 @@ const Dashboard = () => {
         </div>
         <hr />
         <div className="mx-14 mt-5 space-y-5">
-          <div className="text-[#1476ff] text-lg">Group</div>
+          <div className="text-[#1476ff] text-2xl">Users</div>
           <div className="">
             {conversations &&
               conversations.map(({ user }) => <Conversations user={user} />)}
@@ -167,7 +167,6 @@ const Dashboard = () => {
               className="w-6 h-6"
               onClick={handleSendMessage}
             />
-            <PlusCircleIcon className="w-6 h-6" />
           </div>
         </div>
       </div>

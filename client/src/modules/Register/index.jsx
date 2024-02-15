@@ -60,7 +60,7 @@ const Register = () => {
               value={data.password}
               onChange={(e) => setData({ ...data, password: e.target.value })}
             />
-            <Button label="Sign up" className="mt-2" type="submit" onClick={navigate('/sign-in')}/>
+            <Button label="Sign up" className="mt-2" type="submit"/>
           </form>
         </div>
         <div className="mt-2 text-neutral-600">
