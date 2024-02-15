@@ -1,9 +1,9 @@
-import { io } from 'socket.io-client'
+import { io } from "socket.io-client";
 import { useEffect, useState } from "react";
 import { PaperAirplaneIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import Avatar from "../../assets/PFP.png";
 import Input from "../../components/Input";
-import Conversations from '../../components/Conversations';
+import Conversations from "../../components/Conversations";
 
 const conversationId = "65cc638158b2be14e2488c88";
 
@@ -12,24 +12,24 @@ const Dashboard = () => {
     JSON.parse(localStorage.getItem("user:detail"))
   );
   const [conversations, setConversations] = useState([]);
-  const [inputMessage, setInputMessage] = useState('');
+  const [inputMessage, setInputMessage] = useState("");
   const [messages, setMessages] = useState([]);
-  const [socket, setSocket] = useState(null);
- 
-  useEffect(() => {
-    const socket = io('http://localhost:8080'); 
+  // const [socket, setSocket] = useState(null);
 
-    socket?.on('getMessage', (data) => {
-      setMessages((prev) => ({
-        ...prev,
-        messages: [...prev.messages, { user, message: data.message }],
-      }));
-    });
+  const socket = io("http://localhost:8080");
 
-    return () => {
-      socket?.disconnect();
-    };
-  }, []);
+  // useEffect(() => {
+  //   socket?.on('getMessage', (data) => {
+  //     setMessages((prev) => ({
+  //       ...prev,
+  //       messages: [...prev.messages, { user, message: data.message }],
+  //     }));
+  //   });
+
+  //   return () => {
+  //     socket?.disconnect();
+  //   };
+  // }, []);
 
   useEffect(() => {
     const loggedInUser = JSON.parse(localStorage.getItem("user:detail"));
@@ -50,7 +50,7 @@ const Dashboard = () => {
     fetchConversation();
   }, []);
 
-  // Messages Fetched 
+  // Messages Fetched
   const fetchMessages = async () => {
     const response = await fetch(
       `http://localhost:8000/api/message/${conversationId}`,
@@ -69,20 +69,31 @@ const Dashboard = () => {
     fetchMessages();
   }, []);
 
-  // Text submit 
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log("connected", socket.id);
+    });
+
+    socket.on("receive-message", (data) => {
+      console.log(data);
+      setMessages((messages) => [...messages, data]);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  // Text submit
   const handleSendMessage = async (e) => {
     e.preventDefault();
 
-    socket?.emit('sendMessage', {
-      conversationId,
-      senderId: user?.id,
-      message: inputMessage,
-    });
+    socket.emit("message", inputMessage);
 
-    const response = await fetch('http://localhost:8000/api/message', {
-      method: 'POST',
+    const response = await fetch("http://localhost:8000/api/message", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         conversationId,
@@ -91,9 +102,10 @@ const Dashboard = () => {
       }),
     });
 
-    setInputMessage('');
+    setInputMessage("");
+    window.location.reload();
   };
-  
+
   return (
     <main className="w-screen flex flex-col md:flex-row">
       <div className="w-full md:w-[25%] md:h-screen bg-[#f3f5ff]">
@@ -114,9 +126,7 @@ const Dashboard = () => {
           <div className="text-[#1476ff] text-lg">Group</div>
           <div className="">
             {conversations &&
-              conversations.map(({ user }) => (
-                <Conversations user={user}/>
-              ))}
+              conversations.map(({ user }) => <Conversations user={user} />)}
           </div>
         </div>
       </div>
@@ -136,7 +146,7 @@ const Dashboard = () => {
         </div>
         <div className="h-[75%] border w-full overflow-y-scroll">
           <div className="h-[1000px] px-10 py-14">
-            {messages ? 
+            {messages ? (
               messages.map(({ message, user: { id } }) =>
                 id === user?.id ? (
                   <div className=" max-w-[40%] text-[#f3f5ff] bg-[#1476ff] mb-6 rounded-b-xl rounded-tl-xl ml-auto p-4">
@@ -147,9 +157,12 @@ const Dashboard = () => {
                     {message}
                   </div>
                 )
-              ) : (
-                <div className='text-center text-lg font-semibold mt-24'>No Messages or No Conversation Selected</div>
-              )}
+              )
+            ) : (
+              <div className="text-center text-lg font-semibold mt-24">
+                No Messages or No Conversation Selected
+              </div>
+            )}
           </div>
         </div>
         <div className="p-12 w-full relative ">
@@ -162,7 +175,10 @@ const Dashboard = () => {
             className="w-full p-4 border outline-none border-[#1476ff] rounded-full shadow-lg bg-light focus:ring-0 focus:border-0 "
           />
           <div className="absolute top-[4rem] right-20 text-[#1476ff] flex gap-3">
-            <PaperAirplaneIcon className="w-6 h-6" onClick={handleSendMessage}/>
+            <PaperAirplaneIcon
+              className="w-6 h-6"
+              onClick={handleSendMessage}
+            />
             <PlusCircleIcon className="w-6 h-6" />
           </div>
         </div>
