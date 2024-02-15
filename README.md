@@ -25,6 +25,7 @@ application the other users can also chat.
 
 # Run Application in your local server
 
+Clone the repository, then to start **Backend** `cd server` in terminal and `npm i` install dependencies. Similar with client folder to start **Frontend**
 # Install Dependencies
 
 **For Backend** - `cd server` `npm i`
