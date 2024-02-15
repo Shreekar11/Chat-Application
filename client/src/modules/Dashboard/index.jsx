@@ -5,14 +5,13 @@ import Avatar from "../../assets/PFP.png";
 import Input from "../../components/Input";
 import Conversations from "../../components/Conversations";
 
-const conversationId = "65ce1e51234b0b360d31e735";
+const conversationId = process.env.VITE_GROUP_ID;
 const baseURL = process.env.VITE_BASE_URL;
 
 const Dashboard = () => {
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user:detail"))
   );
-  const [conversationId, setConvertionId] = useState("");
   const [conversations, setConversations] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
   const [messages, setMessages] = useState([]);
