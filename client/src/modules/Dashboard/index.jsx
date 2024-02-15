@@ -14,23 +14,10 @@ const Dashboard = () => {
   const [conversations, setConversations] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
   const [messages, setMessages] = useState([]);
-  // const [socket, setSocket] = useState(null);
 
   const socket = io("http://localhost:8080");
 
-  // useEffect(() => {
-  //   socket?.on('getMessage', (data) => {
-  //     setMessages((prev) => ({
-  //       ...prev,
-  //       messages: [...prev.messages, { user, message: data.message }],
-  //     }));
-  //   });
-
-  //   return () => {
-  //     socket?.disconnect();
-  //   };
-  // }, []);
-
+  // conversation useEffect
   useEffect(() => {
     const loggedInUser = JSON.parse(localStorage.getItem("user:detail"));
     const fetchConversation = async () => {
@@ -69,6 +56,7 @@ const Dashboard = () => {
     fetchMessages();
   }, []);
 
+  // socket useEffect
   useEffect(() => {
     socket.on("connect", () => {
       console.log("connected", socket.id);
@@ -84,7 +72,7 @@ const Dashboard = () => {
     };
   }, []);
 
-  // Text submit
+  // Send Message
   const handleSendMessage = async (e) => {
     e.preventDefault();
 

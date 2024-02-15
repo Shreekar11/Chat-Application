@@ -1,7 +1,8 @@
 import { Navigate, Route, Routes, redirect } from "react-router-dom";
 import Dashboard from "./modules/Dashboard";
 import Home from "./modules/Home";
-import Form from "./modules/Form";
+import Login from "./modules/Login";
+import Register from "./modules/Register";
 
 const ProtectedRoute = ({ children, auth = false }) => {
   const isLoggedIn = localStorage.getItem("user:token") !== null || false;
@@ -24,7 +25,7 @@ function App() {
       <Route
         path="/"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute auth={true}>
             <Home />
           </ProtectedRoute>
         }
@@ -41,7 +42,7 @@ function App() {
         path="/sign-in"
         element={
           <ProtectedRoute>
-            <Form isSignedIn={true} />
+            <Login />
           </ProtectedRoute>
         }
       />
@@ -49,7 +50,7 @@ function App() {
         path="/sign-up"
         element={
           <ProtectedRoute>
-            <Form isSignedIn={false} />
+            <Register/>
           </ProtectedRoute>
         }
       />

@@ -4,13 +4,8 @@ import Input from "../../components/Input";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
-const Form = ({ isSignedIn }) => {
-  // const baseURL = process.env.VITE_BASE_URL;
-
+const Login = () => {
   const [data, setData] = useState({
-    ...(!isSignedIn && {
-      fullName: "",
-    }),
     email: "",
     password: "",
   });
@@ -21,7 +16,7 @@ const Form = ({ isSignedIn }) => {
     e.preventDefault();
     try {
       const response = await fetch(
-        `http://localhost:8000/api/${isSignedIn ? "login" : "register"}`,
+        'http://localhost:8000/api/login',
         {
           method: "POST",
           headers: {
@@ -32,14 +27,6 @@ const Form = ({ isSignedIn }) => {
       );
 
       const res = await response.json();
-
-      if(!isSignedIn){
-        if(res.status !== 400){
-          localStorage.setItem("user:token", res.token);
-          localStorage.setItem("user:detail", JSON.stringify(res.user));
-          navigate("/");
-        }
-      }
 
       if (res.status === 400) {
         toast.error("Invalid Data");
@@ -61,24 +48,14 @@ const Form = ({ isSignedIn }) => {
       <div className="bg-white w-1/3 p-10 shadow-lg rounded-lg flex flex-col justify-center items-center">
         <div className="pb-10">
           <div className="text-4xl font-extrabold ">
-            Welcome {isSignedIn && "Back"}
+            Welcome Back
           </div>
           <div className="text-xl text-center font-light">
-            {isSignedIn ? "Sign in to explore" : "Sign up to get started"}
+            Sign in to explore
           </div>
         </div>
         <div className=" w-full">
           <form onSubmit={handleSubmit} className="space-y-4">
-            {!isSignedIn && (
-              <Input
-                label="Full Name"
-                type="text"
-                name="name"
-                placeholder="Full Name"
-                value={data.fullName}
-                onChange={(e) => setData({ ...data, fullName: e.target.value })}
-              />
-            )}
             <Input
               label="Email"
               type="email"
@@ -96,21 +73,21 @@ const Form = ({ isSignedIn }) => {
               onChange={(e) => setData({ ...data, password: e.target.value })}
             />
             <Button
-              label={isSignedIn ? "Sign in" : "Sign up"}
+              label="Sign in"
               className="mt-2"
               type="submit"
             />
           </form>
         </div>
         <div className="mt-2 text-neutral-600">
-          {isSignedIn ? "Didn't have an account" : "Already have an account?"}{" "}
+          Don't have an account? 
           <span
             onClick={() =>
-              navigate(`/${isSignedIn ? "sign-up" : "sign-in"}`)
+              navigate('/sign-up')
             }
             className="text-[#1476ff] cursor-pointer"
           >
-            {isSignedIn ? "Sign up" : "Sign in"}
+            Sign up
           </span>
         </div>
       </div>
@@ -118,4 +95,4 @@ const Form = ({ isSignedIn }) => {
   );
 };
 
-export default Form;
+export default Login;
