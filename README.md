@@ -8,7 +8,7 @@ Implemented Authentication and Authorization with JWT and storing users logged i
 # Home page
 When the user is logged in, the user is directed to home page where the user can click `Get Started` button to start chatting.
 
-![Screenshot (276)](https://github.com/Shreekar11/Chat-Application/assets/123613407/0fbd03f8-2609-48e5-b65b-0db6538fc0de)
+![Screenshot (289)](https://github.com/Shreekar11/Chat-Application/assets/123613407/02e113f5-25c2-4bb9-b940-03b7c88c1019)
 
 # Chat page
 After the user clicks the `Get Started` button, user is directed to chat page where the group chatting is done
