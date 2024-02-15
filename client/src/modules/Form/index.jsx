@@ -106,7 +106,7 @@ const Form = ({ isSignedIn }) => {
           {isSignedIn ? "Didn't have an account" : "Already have an account?"}{" "}
           <span
             onClick={() =>
-              navigate(`/users/${isSignedIn ? "sign-up" : "sign-in"}`)
+              navigate(`/${isSignedIn ? "sign-up" : "sign-in"}`)
             }
             className="text-[#1476ff] cursor-pointer"
           >

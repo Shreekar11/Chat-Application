@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { PaperAirplaneIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import Avatar from "../../assets/PFP.png";
 import Input from "../../components/Input";
+import Conversations from '../../components/Conversations';
 
 const conversationId = "65cc638158b2be14e2488c88";
 
@@ -49,6 +50,7 @@ const Dashboard = () => {
     fetchConversation();
   }, []);
 
+  // Messages Fetched 
   const fetchMessages = async () => {
     const response = await fetch(
       `http://localhost:8000/api/message/${conversationId}`,
@@ -67,6 +69,7 @@ const Dashboard = () => {
     fetchMessages();
   }, []);
 
+  // Text submit 
   const handleSendMessage = async (e) => {
     e.preventDefault();
 
@@ -112,18 +115,7 @@ const Dashboard = () => {
           <div className="">
             {conversations &&
               conversations.map(({ user }) => (
-                <div className="flex items-center py-8 border-b border-b-gray-300">
-                  <img
-                    src={Avatar}
-                    width={60}
-                    height={60}
-                    className="border border-[#1476ff] p-[2px] rounded-full"
-                  />
-                  <div className="ml-8">
-                    <h3 className="text-2xl">{user?.fullName}</h3>
-                    <p className="text-lg font-light">{user?.email}</p>
-                  </div>
-                </div>
+                <Conversations user={user}/>
               ))}
           </div>
         </div>
@@ -144,15 +136,7 @@ const Dashboard = () => {
         </div>
         <div className="h-[75%] border w-full overflow-y-scroll">
           <div className="h-[1000px] px-10 py-14">
-            <div className=" max-w-[40%] bg-[#f3f5ff] rounded-b-xl rounded-tr-xl p-4 mb-6">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Et quo
-              esse, aperiam labore asperiores.
-            </div>
-            <div className=" max-w-[40%] text-[#f3f5ff] bg-[#1476ff] rounded-b-xl mb-6 rounded-tl-xl ml-auto p-4">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Et quo
-              esse, aperiam labore asperiores.
-            </div>
-            {messages &&
+            {messages ? 
               messages.map(({ message, user: { id } }) =>
                 id === user?.id ? (
                   <div className=" max-w-[40%] text-[#f3f5ff] bg-[#1476ff] mb-6 rounded-b-xl rounded-tl-xl ml-auto p-4">
@@ -163,6 +147,8 @@ const Dashboard = () => {
                     {message}
                   </div>
                 )
+              ) : (
+                <div className='text-center text-lg font-semibold mt-24'>No Messages or No Conversation Selected</div>
               )}
           </div>
         </div>
@@ -181,7 +167,6 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      {/* <div className="w-[25%] h-screen"></div> */}
     </main>
   );
 };
