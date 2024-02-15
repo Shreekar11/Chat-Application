@@ -3,7 +3,7 @@ This Chat Application allows logged in users to chat in a group with real time c
 Implemented Authentication and Authorization with JWT and storing users logged in database. 
 
 # Log in page
-![Screenshot (274)](https://github.com/Shreekar11/Chat-Application/assets/123613407/4b47a938-936c-41d8-8e6b-8cfe8f8c63a9)
+![Screenshot (291)](https://github.com/Shreekar11/Chat-Application/assets/123613407/4490a07a-5bd8-42b0-b734-32667e5989b2)
 
 # Home page
 When the user is logged in, the user is directed to home page where the user can click `Get Started` button to start chatting.
