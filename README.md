@@ -22,3 +22,11 @@ application the other users can also chat.
 
 
 ![Screenshot (287)](https://github.com/Shreekar11/Chat-Application/assets/123613407/8f50c4fa-5dbd-4873-8c55-905233b5056f)
+
+# Run Application in your local server
+
+# Install Dependencies
+
+**For Backend** - `cd server` `npm i`
+
+**For Frontend** - `cd client` ` npm i`
