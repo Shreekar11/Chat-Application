@@ -10,5 +10,8 @@ When the user is logged in, the user is directed to home page where the user can
 
 ![Screenshot (276)](https://github.com/Shreekar11/Chat-Application/assets/123613407/0fbd03f8-2609-48e5-b65b-0db6538fc0de)
 
+# Chat page
+After the user clicks the `Get Started` button, user is directed to chat page where the group chatting is done
+
 
 
