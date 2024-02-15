@@ -20,7 +20,9 @@ application the other users can also chat.
 
 ![Screenshot (285)](https://github.com/Shreekar11/Chat-Application/assets/123613407/7b611a98-8828-46e7-be93-5ec714fd29a8)
 
-![Screenshot (287)](https://github.com/Shreekar11/Chat-Application/assets/123613407/8f50c4fa-5dbd-4873-8c55-905233b5056f)
+
+![Screenshot (288)](https://github.com/Shreekar11/Chat-Application/assets/123613407/284c77d4-2b5f-44dd-a35b-db0f91171168)
+
 
 # Run Application in your local server
 
