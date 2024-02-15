@@ -5,7 +5,7 @@ import Avatar from "../../assets/PFP.png";
 import Input from "../../components/Input";
 import Conversations from "../../components/Conversations";
 
-const conversationId = process.env.VITE_GROUP_ID;
+const conversationId = "65ce1e51234b0b360d31e735";
 const baseURL = process.env.VITE_BASE_URL;
 
 const Dashboard = () => {
@@ -33,7 +33,6 @@ const Dashboard = () => {
       );
       const data = await response.json();
       setConversations(data);
-      setConvertionId(conversations.conversationId);
     };
 
     fetchConversation();
@@ -49,6 +48,7 @@ const Dashboard = () => {
     });
     const data = await response.json();
     setMessages(data);
+    console.log(messages);
   };
 
   useEffect(() => {
@@ -114,6 +114,20 @@ const Dashboard = () => {
           <div className="">
             {conversations &&
               conversations.map(({ user }) => <Conversations user={user} />)}
+          </div>
+          <div className="">
+            <div className="flex items-center py-8 border-b border-b-gray-300">
+              <img
+                src={Avatar}
+                width={60}
+                height={60}
+                className="border border-[#1476ff] p-[2px] rounded-full"
+              />
+              <div className="ml-8">
+                <h3 className="text-2xl">Kyrie Irving</h3>
+                <p className="text-lg font-light">kyrie@gmail.com</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
