@@ -18,7 +18,7 @@ After the user clicks the `Get Started` button, user is directed to chat page wh
 Also created multiple user to show the chats from other users perspective. The users could see the real time chat using socket.io. In this group chat 
 application the other users can also chat.
 
-![Screenshot (285)](https://github.com/Shreekar11/Chat-Application/assets/123613407/7b611a98-8828-46e7-be93-5ec714fd29a8)
+![Screenshot (290)](https://github.com/Shreekar11/Chat-Application/assets/123613407/df54117e-d041-463c-8e9d-73ca0e076b91)
 
 
 ![Screenshot (288)](https://github.com/Shreekar11/Chat-Application/assets/123613407/284c77d4-2b5f-44dd-a35b-db0f91171168)
